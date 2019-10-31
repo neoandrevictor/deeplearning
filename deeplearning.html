@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deep Learning</title>
+    <style>
+        div{
+            border:solid 1px black;
+        }
+    </style>
+    <script>
+        
+    var gatos=[];
+    var cachorros=[];
+    var analisado="";
+
+    function carregarGatos(){
+        for (var k=0;k<document.getElementById("inputGatos").files.length;k++){
+          
+            document.getElementById("inputGatos").files[k].text().then(result => gatos.push(result));
+        }
+      
+    }
+
+    function carregarCachorros(){
+        for (var k=0;k<document.getElementById("inputCachorros").files.length;k++){
+          
+            document.getElementById("inputCachorros").files[k].text().then(result => cachorros.push(result));
+        }
+      
+    }
+
+
+    function carregar(){
+        analisado="";
+        document.getElementById("inputAnalisar").files[0].text().then(result => analisado=result);
+        document.getElementById("porcentagemCachorro").innerText="";
+        document.getElementById("porcentagemGato").innerText="";
+
+
+    }
+    function analisar(){
+        let maxScore=0;    
+        for (let k=0;k<gatos.length;k++){
+            let score=0;
+            for (let j=0;j<analisado.length;j++){
+                if (analisado[j]==gatos[k][j]){
+                    score++;
+                }
+            }
+            score=score/analisado.length;
+            if (score>maxScore){
+                maxScore=score;                
+            }
+        }
+        document.getElementById("porcentagemGato").innerText=Math.round(maxScore*100*100)/100;
+
+        
+        maxScore=0;    
+        for (let k=0;k<cachorros.length;k++){
+            let score=0;
+            for (let j=0;j<analisado.length;j++){
+                if (analisado[j]==cachorros[k][j]){
+                    score++;
+                }
+            }
+            score=score/analisado.length;
+            if (score>maxScore){
+                maxScore=score;                
+            }
+        }
+        document.getElementById("porcentagemCachorro").innerText=Math.round(maxScore*100*100)/100;
+
+
+    }
+
+    
+    </script>
+</head>
+
+<body>
+    <div>
+        <p>Gato</p>
+        <input id="inputGatos" multiple type="file" onchange="carregarGatos()">
+        <p>Porcentagem:
+            <spam id="porcentagemGato"></spam>%
+        </p>
+    </div>
+    <div>
+        <p>Cachorro</p>
+        <input id="inputCachorros" multiple type="file" onchange="carregarCachorros()">
+        <p>Porcentagem:
+            <spam id="porcentagemCachorro"></spam>%
+        </p>
+    </div>
+    <div>
+        <p>Analisar</p>
+        <input id="inputAnalisar" type="file" onchange="carregar()">
+        <button onclick="analisar()">Analisar</button>
+    </div>
+</body>
+
+</html>
